@@ -1,0 +1,244 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Dashboard</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+  <style>
+    /* Profile Icon Hover and Click Tooltip */
+    .profile-icon {
+      transition: background-color 0.3s ease, transform 0.3s ease;
+      position: relative;
+    }
+    .profile-icon:hover {
+      background-color: #2563eb;
+      transform: scale(1.1);
+    }
+    .profile-tooltip {
+      display: none;
+      position: absolute;
+      top: 110%;
+      right: 0;
+      background-color: #1f2937;
+      color: white;
+      padding: 0.5rem 1rem;
+      border-radius: 0.5rem;
+      white-space: nowrap;
+      font-size: 0.875rem;
+      box-shadow: 0 5px 15px rgba(0,0,0,0.2);
+      z-index: 10;
+      opacity: 0;
+      transition: opacity 0.3s ease;
+    }
+    .profile-tooltip.show {
+      display: block;
+      opacity: 1;
+    }
+
+    /* Feature Card Container - No glow on this */
+    .feature-card {
+      position: relative;
+      transition: transform 0.3s ease;
+    }
+    
+    .feature-card:hover {
+      transform: translateY(-6px);
+    }
+
+    /* Feature Card Content - Only this should glow */
+    .feature-card-content {
+      border: 3px solid transparent;
+      border-radius: 1rem;
+      background-color: white;
+      position: relative;
+      transition: box-shadow 0.3s ease, border 0.3s ease;
+    }
+    
+    .feature-card:hover .feature-card-content {
+      box-shadow: 0 15px 30px rgba(0,0,0,0.15);
+      border-image-slice: 1;
+      border-width: 3px;
+      border-image-source: linear-gradient(45deg, #22c55e, #10b981, #3b82f6, #22c55e);
+      animation: borderShine 1.5s linear infinite;
+    }
+    
+    @keyframes borderShine {
+      0% { border-image-source: linear-gradient(45deg, #22c55e, #10b981, #3b82f6, #22c55e); }
+      50% { border-image-source: linear-gradient(45deg, #3b82f6, #22c55e, #10b981, #3b82f6); }
+      100% { border-image-source: linear-gradient(45deg, #22c55e, #10b981, #3b82f6, #22c55e); }
+    }
+
+    /* Fade-in Animation */
+    .fade-in {
+      opacity: 0;
+      transform: translateY(20px);
+      animation: fadeIn 0.8s forwards;
+    }
+    .fade-in:nth-child(1) { animation-delay: 0.2s; }
+    .fade-in:nth-child(2) { animation-delay: 0.4s; }
+    .fade-in:nth-child(3) { animation-delay: 0.6s; }
+    .fade-in:nth-child(4) { animation-delay: 0.8s; }
+
+    @keyframes fadeIn {
+      to { opacity: 1; transform: translateY(0); }
+    }
+
+    /* Tooltip for In Development Feature */
+    .dev-tooltip {
+      display: none;
+      position: absolute;
+      top: -2rem;
+      left: 50%;
+      transform: translateX(-50%);
+      background-color: #1f2937;
+      color: #fff;
+      padding: 0.5rem 1rem;
+      border-radius: 0.5rem;
+      font-size: 0.875rem;
+      pointer-events: none;
+      opacity: 0;
+      transition: opacity 0.3s ease;
+      white-space: nowrap;
+      z-index: 20;
+    }
+    .feature-card.dev:hover .dev-tooltip {
+      display: block;
+      opacity: 1;
+    }
+  </style>
+</head>
+<body class="bg-gray-50 min-h-screen flex flex-col">
+
+  <!-- Header -->
+  <header class="flex justify-between items-center p-6 bg-white shadow-md">
+    <h1 class="text-2xl font-bold text-gray-800">Dashboard</h1>
+    <div id="userProfile" class="profile-icon w-12 h-12 rounded-full bg-blue-500 text-white flex items-center justify-center text-xl font-semibold cursor-pointer">
+      <div id="profileTooltip" class="profile-tooltip"></div>
+    </div>
+  </header>
+
+  <!-- Welcome Section -->
+  <section class="p-6 text-center fade-in">
+    <h2 id="welcomeMsg" class="text-3xl font-semibold text-gray-800">Welcome!</h2>
+    <p class="text-gray-600 mt-2">Explore the features we provide to make your job search and resume optimization effortless.</p>
+
+    <!-- Short Feature Info Panel -->
+    <div class="mt-6 flex flex-col md:flex-row justify-center gap-6">
+      <div class="bg-white rounded-xl shadow-md p-4 flex-1">
+        <h3 class="font-semibold text-gray-800 mb-1">Job Search</h3>
+        <p class="text-gray-600 text-sm">Find jobs that match your skills efficiently with personalized recommendations.</p>
+      </div>
+      <div class="bg-white rounded-xl shadow-md p-4 flex-1">
+        <h3 class="font-semibold text-gray-800 mb-1">Tailor Resume</h3>
+        <p class="text-gray-600 text-sm">Automatically tailor your resume for each job to highlight relevant skills.</p>
+      </div>
+      <div class="bg-white rounded-xl shadow-md p-4 flex-1">
+        <h3 class="font-semibold text-gray-800 mb-1">Optimize Resume</h3>
+        <p class="text-gray-600 text-sm">Coming soon! Advanced AI features to enhance your resume quality.</p>
+      </div>
+    </div>
+  </section>
+
+  <!-- Features Section -->
+  <main class="flex flex-col md:flex-row justify-center items-stretch gap-6 p-6 md:p-12">
+
+    <!-- Feature Card: Job Search -->
+    <div class="feature-card fade-in">
+      <div class="feature-card-content p-6 flex-1 flex flex-col items-start text-left">
+        <div class="w-16 h-16 flex items-center justify-center bg-blue-100 rounded-full mb-4">
+          <svg xmlns="http://www.w3.org/2000/svg" class="h-8 w-8 text-blue-600" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M16 7a4 4 0 11-8 0 4 4 0 018 0zm2 14H6a2 2 0 01-2-2v-2a6 6 0 016-6h4a6 6 0 016 6v2a2 2 0 01-2 2z" />
+          </svg>
+        </div>
+        <h3 class="text-xl font-semibold text-gray-800 mb-2"><a href="jobs.html">Job Search</a></h3>
+        <p class="text-gray-600 mb-2">Discover the best job opportunities tailored to your skills.</p>
+        <ul class="list-disc list-inside text-gray-600 space-y-1">
+          <li>Filter jobs by location, industry, and experience.</li>
+          <li>Save favorite listings and apply directly.</li>
+          <li>Get personalized job recommendations.</li>
+        </ul>
+      </div>
+    </div>
+
+    <!-- Feature Card: Tailor Resume -->
+    <div class="feature-card fade-in">
+      <div class="feature-card-content p-6 flex-1 flex flex-col items-start text-left">
+        <div class="w-16 h-16 flex items-center justify-center bg-green-100 rounded-full mb-4">
+          <svg xmlns="http://www.w3.org/2000/svg" class="h-8 w-8 text-green-600" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 8c-1.657 0-3 .895-3 2s1.343 2 3 2 3-.895 3-2-1.343-2-3-2zM12 12v4m0 4v-2m0 0h4m-4 0H8" />
+          </svg>
+        </div>
+        <h3 class="text-xl font-semibold text-gray-800 mb-2"><a href="https://v0-resume-builder-web-app-three.vercel.app/">Tailor Resume</a></h3>
+        <p class="text-gray-600 mb-2">Automatically optimize your resume for each job.</p>
+        <ul class="list-disc list-inside text-gray-600 space-y-1">
+          <li>Highlight relevant skills and experience.</li>
+          <li>AI-based summary suggestions.</li>
+          <li>Export tailored resumes instantly.</li>
+        </ul>
+      </div>
+    </div>
+    <!-- Feature Card: Get ATS Score -->
+<div class="feature-card fade-in">
+  <div class="feature-card-content p-6 flex-1 flex flex-col items-start text-left">
+    <div class="w-16 h-16 flex items-center justify-center bg-purple-100 rounded-full mb-4">
+      <svg xmlns="http://www.w3.org/2000/svg" class="h-8 w-8 text-purple-600" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" 
+              d="M9 17v-2h6v2m-6 0h6m-3-14a9 9 0 100 18 9 9 0 000-18z" />
+      </svg>
+    </div>
+    <h3 class="text-xl font-semibold text-gray-800 mb-2"><a href="ats.html">Get ATS Score</a></h3>
+    <p class="text-gray-600 mb-2">Analyze your resume to see how well it passes ATS filters.</p>
+    <ul class="list-disc list-inside text-gray-600 space-y-1">
+      <li>Upload your resume for instant analysis.</li>
+      <li>Get a detailed ATS compatibility score.</li>
+      <li>Receive suggestions to improve your score.</li>
+    </ul>
+  </div>
+</div>
+
+
+    <!-- Feature Card: Optimize Resume (In Development) -->
+    <div class="feature-card dev fade-in">
+      <div class="dev-tooltip">In Development</div>
+      <div class="feature-card-content p-6 flex-1 flex flex-col items-start text-left">
+        <div class="w-16 h-16 flex items-center justify-center bg-yellow-100 rounded-full mb-4">
+          <svg xmlns="http://www.w3.org/2000/svg" class="h-8 w-8 text-yellow-600" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12l2 2 4-4M12 20c4.418 0 8-3.582 8-8s-3.582-8-8-8-8 3.582-8 8 3.582 8 8 8z" />
+          </svg>
+        </div>
+        <h3 class="text-xl font-semibold text-gray-800 mb-2">Optimize Resume</h3>
+        <p class="text-gray-600 mb-2">Advanced AI features coming soon for resume optimization.</p>
+        <ul class="list-disc list-inside text-gray-600 space-y-1">
+          <li>Smart keyword optimization.</li>
+          <li>AI scoring for each job application.</li>
+          <li>Real-time improvement suggestions.</li>
+        </ul>
+      </div>
+    </div>
+
+  </main>
+
+  <script>
+    // Get email from localStorage
+    const email = localStorage.getItem('ai_resume_email') || 'User@example.com';
+
+    // Display first letter in profile icon
+    const profileIcon = document.getElementById('userProfile');
+    profileIcon.textContent = email.charAt(0).toUpperCase();
+
+    // Display welcome message with name
+    const welcomeMsg = document.getElementById('welcomeMsg');
+    welcomeMsg.textContent = `Welcome, ${email.split('@')[0]}!`;
+
+    // Profile icon tooltip
+    const tooltip = document.getElementById('profileTooltip');
+    tooltip.textContent = email;
+
+    profileIcon.addEventListener('click', () => {
+      tooltip.classList.toggle('show');
+      setTimeout(() => tooltip.classList.remove('show'), 3000); // Hide after 3s
+    });
+  </script>
+</body>
+</html>

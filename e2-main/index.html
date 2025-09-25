@@ -1,0 +1,466 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <!-- Meta -->
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <title>AI Resume Tailor — Tailor your resume to every job — instantly</title>
+
+  <!-- Google Fonts: Inter (or Poppins fallback) -->
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600;700&display=swap" rel="stylesheet">
+
+  <!-- TailwindCSS CDN (for quick prototype) -->
+  <script src="https://cdn.tailwindcss.com"></script>
+
+  <!-- Tailwind config for custom colors -->
+  <script>
+    tailwind.config = {
+      theme: {
+        extend: {
+          colors: {
+            primary: '#6CA6FF',       // soft blue
+            secondary: '#EAE6FF',     // pale lavender
+            neutralText: '#555555',
+            neutralSub: '#888888'
+          },
+          fontFamily: {
+            sans: ['Inter', 'Poppins', 'system-ui', 'sans-serif']
+          },
+          boxShadow: {
+            soft: '0 6px 18px rgba(32, 33, 36, 0.06)'
+          },
+          transitionTimingFunction: {
+            'smooth': 'cubic-bezier(.2,.9,.2,1)'
+          }
+        }
+      }
+    }
+  </script>
+
+  <!-- Custom styles -->
+  <link rel="stylesheet" href="styles.css" />
+</head>
+<body class="bg-white text-neutralText font-sans antialiased">
+
+  <!-- ===========================
+       NAVBAR
+       Semantic header with nav links and CTAs
+       =========================== -->
+  <header class="sticky top-0 z-40 bg-white/60 backdrop-blur-md border-b border-gray-100">
+    <nav class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+      <div class="flex items-center justify-between h-16">
+        <!-- Brand -->
+        <a href="#" class="flex items-center gap-3">
+          <div class="w-10 h-10 rounded-lg bg-gradient-to-br from-primary to-secondary flex items-center justify-center shadow-soft">
+            <svg class="w-6 h-6 text-white" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+              <path d="M4 12h16" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+              <path d="M8 6h8" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+              <path d="M8 18h8" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+            </svg>
+          </div>
+          <span class="font-semibold text-lg text-neutralText">AI Resume Tailor</span>
+        </a>
+
+        <!-- Desktop Nav -->
+        <div class="hidden md:flex items-center gap-6">
+          <a href="#features" class="text-sm text-neutralSub hover:text-neutralText transition">Features</a>
+          <a href="#how-it-works" class="text-sm text-neutralSub hover:text-neutralText transition">How it works</a>
+          <a href="#testimonials" class="text-sm text-neutralSub hover:text-neutralText transition">Testimonials</a>
+          <div class="flex items-center gap-3">
+            <button id="openSignIn" class="py-2 px-4 rounded-md text-sm border border-gray-200 hover:shadow-md transition transform hover:-translate-y-0.5">Sign in</button>
+            <button id="openSignUp" class="py-2 px-4 rounded-md text-sm bg-primary text-white hover:shadow-md transition transform hover:scale-105">Sign up free</button>
+          </div>
+        </div>
+
+        <!-- Mobile menu button -->
+        <div class="md:hidden">
+          <button id="mobileMenuBtn" class="p-2 rounded-md hover:bg-gray-100">
+            <svg class="w-6 h-6 text-neutralText" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 8h16M4 16h16"/>
+            </svg>
+          </button>
+        </div>
+      </div>
+    </nav>
+
+    <!-- Mobile Nav Panel -->
+    <div id="mobileMenu" class="hidden md:hidden border-t border-gray-100">
+      <div class="px-4 pt-4 pb-6 space-y-3">
+        <a href="#features" class="block text-neutralText">Features</a>
+        <a href="#how-it-works" class="block text-neutralText">How it works</a>
+        <a href="#testimonials" class="block text-neutralText">Testimonials</a>
+        <div class="flex gap-3 pt-3">
+          <button id="mOpenSignIn" class="flex-1 py-2 rounded-md border">Sign in</button>
+          <button id="mOpenSignUp" class="flex-1 py-2 rounded-md bg-primary text-white">Sign up</button>
+        </div>
+      </div>
+    </div>
+  </header>
+
+  <!-- ===========================
+       HERO SECTION
+       Big headline, subtext, CTA buttons
+       =========================== -->
+  <main>
+    <section class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 pt-12 pb-10">
+      <div class="grid grid-cols-1 md:grid-cols-2 gap-8 items-center">
+        <!-- Left: headline -->
+        <div>
+          <p class="inline-flex items-center text-sm font-medium text-primary bg-primary/10 px-2.5 py-1 rounded-full mb-4">Free • AI-powered • Privacy-first</p>
+          <h1 class="text-3xl sm:text-4xl md:text-5xl font-bold leading-tight mb-4">Tailor your resume to every job — instantly</h1>
+          <p class="text-neutralSub max-w-xl mb-6">AI Resume Tailor helps job seekers match resumes to job descriptions, suggests relevant jobs, and pre-fills application forms — you stay in control, we make it faster.</p>
+
+          <div class="flex flex-wrap gap-3">
+            <a href="#features" class="inline-flex items-center gap-2 py-3 px-5 rounded-lg bg-primary text-white hover:shadow-md transform transition hover:scale-105">Get started</a>
+            <button id="heroSignUp" class="inline-flex items-center gap-2 py-3 px-5 rounded-lg border border-gray-200 hover:shadow-md transition">Sign up free</button>
+          </div>
+
+          <!-- Small highlights -->
+          <div class="mt-8 grid grid-cols-2 sm:grid-cols-3 gap-4 text-sm text-neutralSub">
+            <div>
+              <div class="font-semibold text-neutralText">Resume Upload</div>
+              <div>Upload DOCX / PDF</div>
+            </div>
+            <div>
+              <div class="font-semibold text-neutralText">Tailored Preview</div>
+              <div>See suggested edits</div>
+            </div>
+            <div>
+              <div class="font-semibold text-neutralText">Form Prefill</div>
+              <div>Save time on applications</div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Right: mockup card -->
+        <div class="flex justify-center md:justify-end">
+          <div class="w-full max-w-md rounded-2xl p-6 shadow-soft border border-gray-50 hover:shadow-md transition transform hover:-translate-y-1">
+            <!-- Tiny mock UI representing the app -->
+            <div class="bg-secondary/60 rounded-lg p-4 mb-4">
+              <div class="flex items-center justify-between mb-3">
+                <div class="text-xs text-neutralSub">Tailor Preview</div>
+                <div class="text-xs text-neutralSub">v1.0</div>
+              </div>
+              <div class="h-36 bg-white rounded-md p-3 overflow-hidden">
+                <div class="h-3 bg-gray-100 rounded w-3/4 mb-2"></div>
+                <div class="h-3 bg-gray-100 rounded w-1/2 mb-2"></div>
+                <div class="h-3 bg-gray-100 rounded w-5/6 mb-2"></div>
+                <div class="h-3 bg-gray-100 rounded w-2/3"></div>
+              </div>
+            </div>
+
+            <div class="space-y-3">
+              <div class="flex items-center justify-between">
+                <div class="font-medium">Resume: resume.pdf</div>
+                <button class="text-sm text-primary">Change</button>
+              </div>
+              <div class="text-sm text-neutralSub">Matched: 7/10</div>
+
+              <div class="mt-3 grid grid-cols-2 gap-3">
+                <button class="py-2 rounded-md border text-sm hover:shadow transition">Preview</button>
+                <button class="py-2 rounded-md bg-primary text-white text-sm hover:scale-105 transition">Apply (prefill)</button>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- ===========================
+         FEATURES SECTION
+         6 cards for key features (Resume Upload, Job Link Input, Job Suggestions, Alerts, Tailored Resume Preview, Form Filling)
+         =========================== -->
+    <section id="features" class="bg-white border-t border-gray-50">
+      <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-16">
+        <h2 class="text-2xl font-semibold mb-6">Features</h2>
+        <p class="text-neutralSub max-w-2xl mb-8">Everything you need to quickly tailor and submit applications — without losing control of your data.</p>
+
+        <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
+          <!-- Feature Card: Resume Upload -->
+          <article class="feature-card p-5 rounded-xl border border-gray-50 hover:shadow-md transition transform hover:-translate-y-1">
+            <div class="flex items-center gap-3 mb-3">
+              <div class="p-2 rounded-md bg-primary/10">
+                <!-- icon -->
+                <svg class="w-6 h-6 text-primary" viewBox="0 0 24 24" fill="none">
+                  <path d="M12 3v12" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+                  <path d="M8 7h8" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+                  <path d="M21 21H3" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+                </svg>
+              </div>
+              <h3 class="font-medium">Resume Upload</h3>
+            </div>
+            <p class="text-sm text-neutralSub">Upload PDF or DOCX and let AI extract structure and keywords for tailoring.</p>
+          </article>
+
+          <!-- Feature Card: Job Link Input -->
+          <article class="feature-card p-5 rounded-xl border border-gray-50 hover:shadow-md transition transform hover:-translate-y-1">
+            <div class="flex items-center gap-3 mb-3">
+              <div class="p-2 rounded-md bg-secondary/20">
+                <svg class="w-6 h-6 text-secondary" viewBox="0 0 24 24" fill="none">
+                  <path d="M10 14L21 3" stroke="currentColor" stroke-width="2" stroke-linecap="round"/>
+                  <path d="M21 3h-7v7" stroke="currentColor" stroke-width="2" stroke-linecap="round"/>
+                </svg>
+              </div>
+              <h3 class="font-medium">Job Link Input</h3>
+            </div>
+            <p class="text-sm text-neutralSub">Paste job descriptions or links and the AI extracts key requirements.</p>
+          </article>
+
+          <!-- Feature Card: Job Suggestions -->
+          <article class="feature-card p-5 rounded-xl border border-gray-50 hover:shadow-md transition transform hover:-translate-y-1">
+            <div class="flex items-center gap-3 mb-3">
+              <div class="p-2 rounded-md bg-primary/10">
+                <svg class="w-6 h-6 text-primary" viewBox="0 0 24 24" fill="none">
+                  <path d="M12 2l3 7h7l-5 4 2 7-7-4-7 4 2-7L2 9h7z" stroke="currentColor" stroke-width="1" stroke-linecap="round" stroke-linejoin="round"/>
+                </svg>
+              </div>
+              <h3 class="font-medium">Job Suggestions</h3>
+            </div>
+            <p class="text-sm text-neutralSub">Get recommended job postings that match your tailored resume.</p>
+          </article>
+
+          <!-- Feature Card: Alerts -->
+          <article class="feature-card p-5 rounded-xl border border-gray-50 hover:shadow-md transition transform hover:-translate-y-1">
+            <div class="flex items-center gap-3 mb-3">
+              <div class="p-2 rounded-md bg-secondary/20">
+                <svg class="w-6 h-6 text-secondary" viewBox="0 0 24 24" fill="none">
+                  <path d="M12 22c1.1 0 2-.9 2-2H10c0 1.1.9 2 2 2z" stroke="currentColor" stroke-width="1.5"/>
+                  <path d="M18 8a6 6 0 10-12 0v4l-2 2h16l-2-2V8z" stroke="currentColor" stroke-width="1.5"/>
+                </svg>
+              </div>
+              <h3 class="font-medium">Alerts</h3>
+            </div>
+            <p class="text-sm text-neutralSub">Set alerts for matching jobs and new opportunities.</p>
+          </article>
+
+          <!-- Feature Card: Tailored Resume Preview -->
+          <article class="feature-card p-5 rounded-xl border border-gray-50 hover:shadow-md transition transform hover:-translate-y-1">
+            <div class="flex items-center gap-3 mb-3">
+              <div class="p-2 rounded-md bg-primary/10">
+                <svg class="w-6 h-6 text-primary" viewBox="0 0 24 24" fill="none">
+                  <path d="M8 2h8l2 2v16l-2 2H8l-2-2V4l2-2z" stroke="currentColor" stroke-width="1.5"/>
+                </svg>
+              </div>
+              <h3 class="font-medium">Tailored Resume Preview</h3>
+            </div>
+            <p class="text-sm text-neutralSub">Preview AI-suggested edits with highlighted changes and reasoning.</p>
+          </article>
+
+          <!-- Feature Card: Form Filling -->
+          <article class="feature-card p-5 rounded-xl border border-gray-50 hover:shadow-md transition transform hover:-translate-y-1">
+            <div class="flex items-center gap-3 mb-3">
+              <div class="p-2 rounded-md bg-secondary/20">
+                <svg class="w-6 h-6 text-secondary" viewBox="0 0 24 24" fill="none">
+                  <path d="M5 12h14" stroke="currentColor" stroke-width="2" stroke-linecap="round"/>
+                  <path d="M5 6h14" stroke="currentColor" stroke-width="2" stroke-linecap="round"/>
+                  <path d="M5 18h14" stroke="currentColor" stroke-width="2" stroke-linecap="round"/>
+                </svg>
+              </div>
+              <h3 class="font-medium">Form Filling</h3>
+            </div>
+            <p class="text-sm text-neutralSub">Prefill application forms with your tailored resume data (you review before sending).</p>
+          </article>
+        </div>
+      </div>
+    </section>
+
+    <!-- ===========================
+         HOW IT WORKS SECTION
+         3 steps with icons (Upload → Paste → Tailor & Apply)
+         =========================== -->
+    <section id="how-it-works" class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-16">
+      <h2 class="text-2xl font-semibold mb-6">How it works</h2>
+      <p class="text-neutralSub max-w-2xl mb-8">Three simple steps to speed up your job applications.</p>
+
+      <div class="grid grid-cols-1 sm:grid-cols-3 gap-6">
+        <!-- Step 1 -->
+        <div class="p-6 rounded-xl border border-gray-50 hover:shadow-md transition transform hover:-translate-y-1 text-center">
+          <div class="mx-auto w-16 h-16 rounded-full bg-primary/10 mb-4 flex items-center justify-center">
+            <svg class="w-8 h-8 text-primary" viewBox="0 0 24 24" fill="none">
+              <path d="M12 2v8" stroke="currentColor" stroke-width="2" stroke-linecap="round"/>
+              <path d="M20 22H4" stroke="currentColor" stroke-width="2" stroke-linecap="round"/>
+            </svg>
+          </div>
+          <h3 class="font-medium mb-2">Upload</h3>
+          <p class="text-sm text-neutralSub">Upload your resume (PDF/DOCX) or create one from scratch.</p>
+        </div>
+
+        <!-- Step 2 -->
+        <div class="p-6 rounded-xl border border-gray-50 hover:shadow-md transition transform hover:-translate-y-1 text-center">
+          <div class="mx-auto w-16 h-16 rounded-full bg-secondary/20 mb-4 flex items-center justify-center">
+            <svg class="w-8 h-8 text-secondary" viewBox="0 0 24 24" fill="none">
+              <path d="M3 12h18" stroke="currentColor" stroke-width="2" stroke-linecap="round"/>
+              <path d="M12 3v18" stroke="currentColor" stroke-width="2" stroke-linecap="round"/>
+            </svg>
+          </div>
+          <h3 class="font-medium mb-2">Paste</h3>
+          <p class="text-sm text-neutralSub">Paste job descriptions or job links for parsing.</p>
+        </div>
+
+        <!-- Step 3 -->
+        <div class="p-6 rounded-xl border border-gray-50 hover:shadow-md transition transform hover:-translate-y-1 text-center">
+          <div class="mx-auto w-16 h-16 rounded-full bg-primary/10 mb-4 flex items-center justify-center">
+            <svg class="w-8 h-8 text-primary" viewBox="0 0 24 24" fill="none">
+              <path d="M5 12h14" stroke="currentColor" stroke-width="2" stroke-linecap="round"/>
+              <path d="M12 5v14" stroke="currentColor" stroke-width="2" stroke-linecap="round"/>
+            </svg>
+          </div>
+          <h3 class="font-medium mb-2">Tailor & Apply</h3>
+          <p class="text-sm text-neutralSub">Review AI edits, preview resume, and pre-fill application forms.</p>
+        </div>
+      </div>
+    </section>
+
+    <!-- ===========================
+         TESTIMONIALS / BENEFITS (optional)
+         =========================== -->
+    <section id="testimonials" class="bg-gray-50">
+      <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-16">
+        <h2 class="text-2xl font-semibold mb-6">What users say</h2>
+        <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
+          <blockquote class="p-6 bg-white rounded-xl shadow-soft">
+            <p class="text-neutralText">"AI Resume Tailor cut my application time in half — the tailored highlights helped me get interviews."</p>
+            <footer class="mt-4 text-sm text-neutralSub">— Priya K., Data Analyst</footer>
+          </blockquote>
+
+          <blockquote class="p-6 bg-white rounded-xl shadow-soft">
+            <p class="text-neutralText">"The form prefill is a lifesaver. I can review and submit — no more repetitive typing."</p>
+            <footer class="mt-4 text-sm text-neutralSub">— Rohit S., Product Designer</footer>
+          </blockquote>
+
+          <blockquote class="p-6 bg-white rounded-xl shadow-soft">
+            <p class="text-neutralText">"Great free tool with thoughtful UX and privacy-focused approach."</p>
+            <footer class="mt-4 text-sm text-neutralSub">— Anika M., Contractor</footer>
+          </blockquote>
+        </div>
+      </div>
+    </section>
+
+    <!-- ===========================
+         FINAL CTA
+         Strong call to action with signup button
+         =========================== -->
+    <section class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-12">
+      <div class="rounded-2xl p-8 bg-gradient-to-r from-primary/6 to-secondary/6 border border-gray-100 shadow-soft flex flex-col md:flex-row items-center justify-between gap-6">
+        <div>
+          <h3 class="text-xl font-semibold">Ready to tailor your resume?</h3>
+          <p class="text-neutralSub">Sign up free and start applying faster — AI-powered, privacy-first.</p>
+        </div>
+        <div>
+          <button id="finalSignUp" class="py-3 px-5 rounded-lg bg-primary text-white hover:shadow-md transition">Sign up free</button>
+        </div>
+      </div>
+    </section>
+  </main>
+
+  <!-- ===========================
+       FOOTER
+       About, Contact, Terms, Privacy links
+       =========================== -->
+  <footer class="border-t border-gray-100">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
+      <div class="flex flex-col md:flex-row items-center justify-between gap-6">
+        <div class="text-sm text-neutralSub">&copy; <span id="year"></span> AI Resume Tailor. All rights reserved.</div>
+        <div class="flex gap-6 text-sm">
+          <a href="#" class="hover:text-neutralText">About</a>
+          <a href="#" class="hover:text-neutralText">Contact</a>
+          <a href="#" class="hover:text-neutralText">Terms</a>
+          <a href="#" class="hover:text-neutralText">Privacy</a>
+        </div>
+      </div>
+    </div>
+  </footer>
+
+  <!-- ===========================
+       AUTH MODALS (Sign Up / Sign In / Forgot Password)
+       Semantic dialogs implemented with accessible roles and JS control
+       =========================== -->
+  <!-- Overlay -->
+  <div id="modalOverlay" class="fixed inset-0 bg-black/30 hidden z-50"></div>
+
+  <!-- Sign In / Sign Up Modal -->
+  <div id="authModal" class="fixed inset-0 flex items-center justify-center p-4 hidden z-50">
+    <div class="w-full max-w-md bg-white rounded-2xl shadow-soft p-6 relative">
+      <button id="closeAuth" class="absolute right-4 top-4 text-neutralSub hover:text-neutralText" aria-label="Close">
+        ✕
+      </button>
+
+      <!-- Tabs -->
+      <div class="mb-4">
+        <div class="flex gap-2 bg-gray-100 rounded-full p-1 w-max">
+          <button id="tabSignIn" class="px-4 py-2 rounded-full text-sm font-medium">Sign in</button>
+          <button id="tabSignUp" class="px-4 py-2 rounded-full text-sm font-medium bg-white shadow">Sign up</button>
+        </div>
+      </div>
+
+      <!-- Forms Container -->
+      <div id="formsContainer">
+        <!-- Sign Up Form -->
+        <form id="signUpForm" class="space-y-4">
+          <input type="hidden" name="action" value="signup" />
+          <div>
+            <label class="block text-sm text-neutralSub">Email</label>
+            <input name="email" type="email" required class="mt-1 w-full rounded-md border px-3 py-2" placeholder="you@example.com" />
+          </div>
+          <div>
+            <label class="block text-sm text-neutralSub">Password</label>
+            <input name="password" type="password" required minlength="6" class="mt-1 w-full rounded-md border px-3 py-2" placeholder="At least 6 characters" />
+          </div>
+
+          <div class="space-y-2">
+            <button type="submit" class="w-full py-2 rounded-md bg-primary text-white">Create account</button>
+            <button id="googleSignUp" type="button" class="w-full py-2 rounded-md border">Continue with Google (placeholder)</button>
+          </div>
+
+          <div class="text-sm text-neutralSub text-center">
+            Already have an account? <a id="switchToSignIn" class="text-primary hover:underline cursor-pointer">Sign in</a>
+          </div>
+        </form>
+
+        <!-- Sign In Form -->
+        <form id="signInForm" class="space-y-4 hidden">
+          <input type="hidden" name="action" value="signin" />
+          <div>
+            <label class="block text-sm text-neutralSub">Email</label>
+            <input name="email" type="email" required class="mt-1 w-full rounded-md border px-3 py-2" placeholder="you@example.com" />
+          </div>
+          <div>
+            <label class="block text-sm text-neutralSub">Password</label>
+            <input name="password" type="password" required class="mt-1 w-full rounded-md border px-3 py-2" placeholder="Your password" />
+          </div>
+
+          <div class="space-y-2">
+            <button type="submit" class="w-full py-2 rounded-md bg-primary text-white">Sign in</button>
+            <button id="googleSignIn" type="button" class="w-full py-2 rounded-md border">Continue with Google (placeholder)</button>
+          </div>
+
+          <div class="flex items-center justify-between text-sm text-neutralSub">
+            <a id="forgotPasswordBtn" class="text-primary hover:underline cursor-pointer">Forgot password?</a>
+            <div>New? <a id="switchToSignUp" class="text-primary hover:underline cursor-pointer">Create account</a></div>
+          </div>
+        </form>
+
+        <!-- Forgot Password Form -->
+        <form id="forgotForm" class="space-y-4 hidden">
+          <div>
+            <label class="block text-sm text-neutralSub">Email</label>
+            <input name="email" type="email" required class="mt-1 w-full rounded-md border px-3 py-2" placeholder="you@example.com" />
+          </div>
+          <div>
+            <button type="submit" class="w-full py-2 rounded-md bg-primary text-white">Send password reset</button>
+          </div>
+          <div class="text-sm text-neutralSub text-center">
+            Remembered? <a id="backToSignIn" class="text-primary hover:underline cursor-pointer">Sign in</a>
+          </div>
+        </form>
+      </div>
+
+      <!-- status message -->
+      <div id="authStatus" class="mt-4 text-sm text-neutralSub"></div>
+    </div>
+  </div>
+
+  <!-- Link script -->
+  <script src="script.js"></script>
+</body>
+</html>

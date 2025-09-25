@@ -1,0 +1,40 @@
+/* ============================
+   styles.css
+   Custom styles (small additions on top of Tailwind)
+   ============================ */
+
+/* Ensure body text color fallback */
+:root {
+  --primary: #6CA6FF;
+  --secondary: #EAE6FF;
+  --neutralText: #555555;
+  --neutralSub: #888888;
+}
+
+/* Smooth animations for interactive elements */
+.feature-card {
+  transition: transform .25s var(--tw-transition-timing-function, cubic-bezier(.2,.9,.2,1)), box-shadow .25s;
+}
+
+/* Modal animation */
+#authModal .rounded-2xl {
+  transition: transform 220ms cubic-bezier(.2,.9,.2,1), opacity 220ms;
+  transform-origin: center;
+}
+
+/* When overlay shows, slightly scale modal */
+#authModal.show .rounded-2xl {
+  transform: translateY(-6px) scale(1);
+  opacity: 1;
+}
+
+/* Tiny responsive tweaks */
+@media (max-width: 640px) {
+  h1 { font-size: 1.75rem; }
+}
+
+/* Accessibility: focus visible */
+:focus {
+  outline: 3px solid rgba(108,166,255,0.18);
+  outline-offset: 2px;
+}
