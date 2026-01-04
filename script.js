@@ -133,30 +133,37 @@
   // ---------------------------
   // Auth API requests
   // ---------------------------
+
   async function postAuth(payload) {
-    try {
-      setStatus('Processing...');
-      const res = await fetch(AUTH_ENDPOINT, {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify(payload)
-      });
+  try {
+    setStatus('Processing...');
 
-      const data = await res.json().catch(() => null);
+    const formData = new FormData();
+    Object.entries(payload).forEach(([key, value]) => {
+      formData.append(key, value);
+    });
 
-      if (res.status !== 200) {  // Only success code 200
-        return {
-          ok: false,
-          error: data?.message || `Server returned ${res.status}`,
-          details: data
-        };
-      }
+    const res = await fetch(AUTH_ENDPOINT, {
+      method: 'POST',
+      body: formData   // NO headers here
+    });
 
-      return { ok: true, data };
-    } catch (err) {
-      return { ok: false, error: err.message || 'Network error' };
+    const data = await res.json().catch(() => null);
+
+    if (res.status !== 200) {
+      return {
+        ok: false,
+        error: data?.message || `Server returned ${res.status}`,
+        details: data
+      };
     }
+
+    return { ok: true, data };
+  } catch (err) {
+    return { ok: false, error: err.message || 'Network error' };
   }
+}
+
 
   // ---------------------------
   // Sign Up
@@ -288,4 +295,5 @@
   });
 
 })();
+
 
